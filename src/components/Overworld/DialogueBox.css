@@ -1,0 +1,82 @@
+.dialogue-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  pointer-events: auto;
+}
+
+.dialogue-box {
+  background: linear-gradient(145deg, #1a1a2e, #0d1117);
+  border: 2px solid rgba(230, 57, 70, 0.4);
+  border-radius: 16px;
+  padding: 20px 24px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+  animation: dialogueSlideUp 0.3s ease;
+}
+
+.dialogue-name {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
+  color: #e63946;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.dialogue-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  color: #e0e0e0;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.dialogue-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.dialogue-btn {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dialogue-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.dialogue-btn-battle {
+  background: linear-gradient(135deg, #e63946, #c1121f);
+  border-color: #e63946;
+  color: #fff;
+}
+
+.dialogue-btn-battle:hover {
+  box-shadow: 0 0 15px rgba(230, 57, 70, 0.4);
+  transform: translateY(-1px);
+}
+
+.dialogue-btn-cancel {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes dialogueSlideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

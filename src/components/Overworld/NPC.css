@@ -1,0 +1,120 @@
+.npc-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.1s;
+}
+
+.npc-name-label {
+  position: absolute;
+  top: -20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 11;
+  pointer-events: none;
+}
+
+.npc-interact-hint {
+  position: absolute;
+  top: -36px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.5rem;
+  color: #f4a261;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 3px 6px;
+  border-radius: 4px;
+  animation: hintBounce 0.8s ease infinite;
+  z-index: 12;
+}
+
+.npc-sprite {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: npcIdle 2s ease-in-out infinite;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.npc-face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.npc-eyes {
+  display: flex;
+  gap: 8px;
+}
+
+.npc-eye {
+  width: 5px;
+  height: 5px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.npc-mouth {
+  width: 10px;
+  height: 3px;
+  background: #fff;
+  border-radius: 0 0 6px 6px;
+}
+
+.npc-mouth-sad {
+  border-radius: 6px 6px 0 0;
+}
+
+.npc-defeated-mark {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #2d6a4f;
+  color: #fff;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  font-size: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.npc-defeated .npc-sprite {
+  opacity: 0.5;
+}
+
+.npc-shadow {
+  width: 28px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  margin-top: 2px;
+}
+
+.npc-nearby .npc-sprite {
+  box-shadow: 0 0 12px rgba(244, 162, 97, 0.6);
+}
+
+@keyframes npcIdle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes hintBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}

@@ -1,0 +1,120 @@
+.setup-screen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1a1a2e, #0f0c29);
+  padding: 20px;
+}
+
+.setup-card {
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 40px !important;
+}
+
+.setup-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.2rem;
+  color: #fff;
+  text-align: center;
+}
+
+.setup-preview {
+  display: flex;
+  justify-content: center;
+}
+
+.preview-sprite {
+  width: 90px;
+  height: 90px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  animation: floatIdle 3s ease-in-out infinite;
+  transition: background 0.3s ease;
+}
+
+.setup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.setup-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.setup-input:focus {
+  border-color: #e63946;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.setup-error {
+  color: #e63946;
+  font-size: 0.8rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.color-picker {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.color-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.color-btn:hover {
+  transform: scale(1.1);
+}
+
+.color-btn.selected {
+  border-color: #fff;
+  transform: scale(1.15);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.setup-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+@keyframes floatIdle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}

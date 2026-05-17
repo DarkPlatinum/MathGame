@@ -1,0 +1,55 @@
+.battle-result-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.result-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.result-rewards {
+  display: flex;
+  gap: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reward-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+.reward-icon {
+  font-size: 1.2rem;
+}
+
+.reward-amount {
+  color: #e0e0e0;
+}
+
+.level-up-notice {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.9rem;
+  color: #f4a261;
+  animation: levelUpPulse 1s ease infinite alternate;
+  margin-top: 10px;
+}
+
+.result-continue-btn {
+  margin-top: 10px;
+}
+
+@keyframes levelUpPulse {
+  0% { transform: scale(1); text-shadow: 0 0 10px rgba(244, 162, 97, 0.4); }
+  100% { transform: scale(1.1); text-shadow: 0 0 20px rgba(244, 162, 97, 0.8); }
+}

@@ -1,0 +1,207 @@
+.lobby-screen {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0f0c29, #1a1a2e);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.lobby-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.lobby-back {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.lobby-back:hover {
+  color: #e63946;
+}
+
+.lobby-title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.1rem;
+  color: #e63946;
+}
+
+.lobby-status {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-connected {
+  color: #2d6a4f;
+}
+
+.status-disconnected {
+  color: #e63946;
+}
+
+.lobby-error {
+  background: rgba(230, 57, 70, 0.1);
+  border: 1px solid rgba(230, 57, 70, 0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #e63946;
+}
+
+.lobby-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.lobby-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.lobby-action-card {
+  text-align: center;
+}
+
+.lobby-action-card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.lobby-action-card p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 16px;
+}
+
+.join-code-form {
+  display: flex;
+  gap: 8px;
+}
+
+.join-code-input {
+  flex: 1;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
+  text-align: center;
+  letter-spacing: 3px;
+  outline: none;
+}
+
+.join-code-input:focus {
+  border-color: #e63946;
+}
+
+/* Waiting card */
+.lobby-waiting-card {
+  text-align: center;
+  padding: 40px;
+}
+
+.waiting-content h2 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  color: #fff;
+  margin: 16px 0 8px;
+}
+
+.waiting-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(230, 57, 70, 0.2);
+  border-top-color: #e63946;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+.room-code {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1rem;
+  color: #f4a261;
+  margin: 12px 0;
+}
+
+.waiting-hint {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Rooms list */
+.rooms-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.rooms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.room-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.room-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(230, 57, 70, 0.3);
+}
+
+.room-host {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  color: #fff;
+  flex: 1;
+}
+
+.room-level {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 600px) {
+  .lobby-actions {
+    grid-template-columns: 1fr;
+  }
+}

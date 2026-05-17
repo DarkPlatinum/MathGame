@@ -1,0 +1,17 @@
+.card {
+  background: linear-gradient(145deg, #1a1a2e, #16213e);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: rgba(230, 57, 70, 0.3);
+  transform: translateY(-2px);
+}
+
+.card-glow {
+  box-shadow: 0 0 20px rgba(230, 57, 70, 0.15);
+  border-color: rgba(230, 57, 70, 0.3);
+}

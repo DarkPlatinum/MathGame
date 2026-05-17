@@ -1,0 +1,78 @@
+.player-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  transition: left 0.12s ease, top 0.12s ease;
+}
+
+.player-sprite-char {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15), 0 2px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  transition: transform 0.1s;
+}
+
+.player-face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.player-eyes {
+  display: flex;
+  gap: 8px;
+}
+
+.player-eye-left,
+.player-eye-right {
+  width: 5px;
+  height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.15s;
+}
+
+.player-mouth-char {
+  width: 10px;
+  height: 3px;
+  background: #fff;
+  border-radius: 0 0 6px 6px;
+}
+
+/* Directional eye movement */
+.player-dir-left .player-eye-left,
+.player-dir-left .player-eye-right {
+  transform: translateX(-2px);
+}
+
+.player-dir-right .player-eye-left,
+.player-dir-right .player-eye-right {
+  transform: translateX(2px);
+}
+
+.player-dir-up .player-eye-left,
+.player-dir-up .player-eye-right {
+  transform: translateY(-2px);
+}
+
+.player-dir-down .player-eye-left,
+.player-dir-down .player-eye-right {
+  transform: translateY(2px);
+}
+
+.player-shadow {
+  width: 28px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 50%;
+  margin-top: 2px;
+}

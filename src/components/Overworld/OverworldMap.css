@@ -1,0 +1,213 @@
+.overworld-wrapper {
+  width: 100%;
+  height: 100vh;
+  background: #0a0a0a;
+  overflow: hidden;
+  position: relative;
+}
+
+.overworld-viewport {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.overworld-map {
+  position: absolute;
+  transition: transform 0.15s ease;
+}
+
+/* HUD */
+.overworld-hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: linear-gradient(180deg, rgba(13, 17, 23, 0.95), rgba(13, 17, 23, 0));
+  pointer-events: none;
+}
+
+.hud-player-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hud-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hud-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.hud-name {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.hud-level {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.hud-stats {
+  display: flex;
+  gap: 16px;
+}
+
+.hud-coins,
+.hud-xp {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Tiles */
+.map-tile {
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.tile-grass {
+  background-image:
+    radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.tile-path {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.tile-water {
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%);
+  animation: waterShimmer 3s ease-in-out infinite;
+}
+
+.tile-tree {
+  position: relative;
+  overflow: visible;
+}
+
+.tile-wall {
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.tile-bridge {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 10px,
+    rgba(0, 0, 0, 0.15) 10px,
+    rgba(0, 0, 0, 0.15) 12px
+  );
+}
+
+.tile-sand {
+  background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+/* Tree decoration */
+.tree-top {
+  width: 32px;
+  height: 26px;
+  background: #1b4332;
+  border-radius: 50% 50% 40% 40%;
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tree-trunk {
+  width: 8px;
+  height: 14px;
+  background: #5c4033;
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+/* Flower decoration */
+.tile-flowers {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.flower {
+  position: absolute;
+  font-size: 0.7rem;
+  animation: flowerSway 3s ease-in-out infinite;
+}
+
+.f1 {
+  top: 8px;
+  left: 10px;
+  color: #f72585;
+}
+
+.f2 {
+  bottom: 8px;
+  right: 10px;
+  color: #ffd166;
+  animation-delay: 1.5s;
+}
+
+/* Water animation */
+.tile-water-anim {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+  animation: waterShimmer 2.5s ease-in-out infinite;
+}
+
+@keyframes waterShimmer {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes flowerSway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(5deg); }
+}
+
+/* Controls hint */
+.controls-hint {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 6px 14px;
+  border-radius: 20px;
+  z-index: 100;
+}

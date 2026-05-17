@@ -1,0 +1,103 @@
+.online-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1a1a2e, #0f0c29);
+  color: white;
+  position: relative;
+}
+
+.online-error {
+  position: absolute;
+  top: 20px;
+  background: #e63946;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  animation: slideDown 0.3s ease-out;
+  z-index: 100;
+}
+
+.waiting-room, .result-screen {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 300px;
+}
+
+.waiting-room h2 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.2rem;
+  color: #4cc9f0;
+}
+
+.players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.player-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+}
+
+.player-status {
+  color: #f4a261;
+}
+
+.room-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.btn-leave, .btn-ready {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-leave {
+  background: #e63946;
+  color: white;
+}
+
+.btn-ready {
+  background: #2d6a4f;
+  color: white;
+  flex-grow: 1;
+}
+
+.btn-leave:hover, .btn-ready:hover {
+  opacity: 0.8;
+}
+
+.result-screen h2 {
+  font-family: 'Press Start 2P', cursive;
+  color: #f4a261;
+  font-size: 1.5rem;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

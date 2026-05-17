@@ -1,0 +1,50 @@
+.battle-log {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 12px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.battle-log-msg {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  animation: logSlideIn 0.3s ease forwards;
+  opacity: 0;
+}
+
+.battle-log-info {
+  color: #a8dadc;
+  background: rgba(168, 218, 220, 0.08);
+}
+
+.battle-log-damage {
+  color: #e63946;
+  background: rgba(230, 57, 70, 0.1);
+  font-weight: 600;
+}
+
+.battle-log-correct {
+  color: #2d6a4f;
+  background: rgba(45, 106, 79, 0.1);
+  font-weight: 600;
+}
+
+.battle-log-wrong {
+  color: #e9c46a;
+  background: rgba(233, 196, 106, 0.1);
+}
+
+.battle-log-critical {
+  color: #f72585;
+  background: rgba(247, 37, 133, 0.15);
+  font-weight: 700;
+}
+
+@keyframes logSlideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
