@@ -1,11 +1,13 @@
 .start-screen {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100dvh;
   position: relative;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .start-bg {
@@ -29,17 +31,17 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: 0.4;
+  opacity: 0.3;
   animation: orbFloat 10s ease-in-out infinite alternate;
 }
 
-.orb-1 { width: 400px; height: 400px; background: #e63946; top: -100px; left: -100px; }
-.orb-2 { width: 300px; height: 300px; background: #4cc9f0; bottom: -50px; right: -50px; animation-delay: -5s; }
-.orb-3 { width: 250px; height: 250px; background: #7209b7; top: 40%; left: 40%; animation-delay: -2s; }
+.orb-1 { width: min(300px, 80vw); height: min(300px, 80vw); background: #e63946; top: -50px; left: -50px; }
+.orb-2 { width: min(250px, 70vw); height: min(250px, 70vw); background: #4cc9f0; bottom: -50px; right: -50px; animation-delay: -5s; }
+.orb-3 { width: min(200px, 60vw); height: min(200px, 60vw); background: #7209b7; top: 40%; left: 40%; animation-delay: -2s; }
 
 @keyframes orbFloat {
   0% { transform: translate(0, 0); }
-  100% { transform: translate(50px, 50px); }
+  100% { transform: translate(30px, 30px); }
 }
 
 .math-particles {
@@ -52,7 +54,7 @@
 .math-symbol {
   position: absolute;
   bottom: -50px;
-  color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.06);
   font-family: 'Press Start 2P', cursive;
   animation: floatUp linear infinite;
 }
@@ -61,7 +63,7 @@
   0% { transform: translateY(0) rotate(0deg); opacity: 0; }
   10% { opacity: 1; }
   90% { opacity: 1; }
-  100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+  100% { transform: translateY(-100dvh) rotate(360deg); opacity: 0; }
 }
 
 .start-content {
@@ -69,28 +71,30 @@
   z-index: 10;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: clamp(20px, 5vh, 40px);
   align-items: center;
+  width: 100%;
+  max-width: 450px;
 }
 
 .start-logo {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .logo-icon {
-  font-size: 4rem;
+  font-size: clamp(2.5rem, 10vw, 4rem);
   display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 8px;
+  margin-bottom: 5px;
   animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .game-title {
   font-family: 'Press Start 2P', cursive;
-  font-size: 2.5rem;
+  font-size: clamp(1.4rem, 6vw, 2.4rem);
   line-height: 1.4;
   text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   display: flex;
@@ -99,31 +103,40 @@
 
 .title-mind { color: #fff; }
 .title-battle { color: #e63946; }
-.title-arena { color: #f4a261; font-size: 1.5rem; margin-top: 10px; }
+.title-arena { color: #f4a261; font-size: clamp(0.9rem, 4vw, 1.4rem); margin-top: 8px; }
 
 .game-tagline {
   font-family: 'Inter', sans-serif;
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 1px;
+  font-size: clamp(0.85rem, 3vw, 1.05rem);
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.5px;
 }
 
 .start-menu {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
   width: 100%;
-  max-width: 300px;
+  max-width: min(100%, 280px);
 }
 
 .start-footer {
-  margin-top: 40px;
+  margin-top: clamp(20px, 5vh, 40px);
   font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.25);
 }
 
 @keyframes popIn {
   0% { transform: scale(0.5); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
+}
+
+@media (max-height: 600px) {
+  .logo-icon {
+    font-size: 2.2rem;
+  }
+  .start-content {
+    gap: 15px;
+  }
 }

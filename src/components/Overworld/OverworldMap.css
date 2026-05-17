@@ -211,3 +211,21 @@
   border-radius: 20px;
   z-index: 100;
 }
+
+@media (max-width: 800px) {
+  .controls-hint {
+    display: none !important;
+  }
+  .overworld-hud {
+    padding: 8px 12px !important;
+  }
+  .hud-stats {
+    gap: 10px !important;
+  }
+  .hud-coins, .hud-xp {
+    font-size: 0.7rem !important;
+  }
+  .hud-name {
+    font-size: 0.8rem !important;
+  }
+}

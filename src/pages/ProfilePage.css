@@ -1,9 +1,10 @@
 .profile-screen {
-  width: 100vw;
-  min-height: 100vh;
+  width: 100%;
+  min-height: 100dvh;
   background: linear-gradient(135deg, #0f0c29, #1a1a2e);
-  padding: 20px;
+  padding: 15px;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .profile-header {
@@ -11,7 +12,8 @@
   justify-content: space-between;
   align-items: center;
   max-width: 800px;
-  margin: 0 auto 30px;
+  margin: 0 auto clamp(15px, 4vh, 30px);
+  gap: 10px;
 }
 
 .back-btn {
@@ -19,9 +21,10 @@
   border: none;
   color: rgba(255, 255, 255, 0.7);
   font-family: 'Outfit', sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: color 0.2s;
+  flex-shrink: 0;
 }
 
 .back-btn:hover {
@@ -30,76 +33,95 @@
 
 .profile-title {
   font-family: 'Press Start 2P', cursive;
-  font-size: 1.2rem;
+  font-size: clamp(0.95rem, 3.5vw, 1.25rem);
   color: #fff;
+  text-align: right;
 }
 
 .profile-content {
   max-width: 600px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .profile-card {
-  padding: 40px !important;
+  padding: clamp(16px, 5vw, 35px) !important;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: clamp(15px, 4vh, 25px);
+  box-sizing: border-box;
 }
 
 .profile-top {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: clamp(12px, 4vw, 20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 20px;
+  padding-bottom: clamp(12px, 3vh, 20px);
 }
 
 .profile-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 16px;
+  width: clamp(60px, 15vw, 80px);
+  height: clamp(60px, 15vw, 80px);
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.profile-avatar span {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
 }
 
 .profile-info {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
+  min-width: 0;
 }
 
 .profile-name {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
+  font-weight: 800;
   color: #fff;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profile-level {
   font-family: 'Inter', sans-serif;
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
   color: #4cc9f0;
   font-weight: 600;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(10px, 3vw, 15px);
+}
+
+@media (min-width: 480px) {
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  }
 }
 
 .stat-box {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  padding: 15px;
+  padding: clamp(10px, 3vw, 15px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   transition: transform 0.2s;
 }
 
@@ -109,78 +131,80 @@
 }
 
 .stat-icon {
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
 }
 
 .stat-label {
   font-family: 'Inter', sans-serif;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.55);
   text-align: center;
 }
 
 .stat-value {
   font-family: 'Press Start 2P', cursive;
-  font-size: 0.9rem;
+  font-size: clamp(0.75rem, 2.5vw, 0.9rem);
   color: #f4a261;
 }
 
 .badges-section {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 20px;
+  padding-top: clamp(15px, 3vh, 20px);
 }
 
 .badges-title {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.2rem;
+  font-size: clamp(1.05rem, 3.5vw, 1.25rem);
   color: #fff;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .badges-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 10px;
 }
 
 .badge-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(230, 57, 70, 0.1);
-  border: 1px solid rgba(230, 57, 70, 0.3);
-  padding: 8px 12px;
+  gap: 6px;
+  background: rgba(230, 57, 70, 0.08);
+  border: 1px solid rgba(230, 57, 70, 0.25);
+  padding: 6px 12px;
   border-radius: 20px;
   cursor: help;
 }
 
 .badge-icon {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 3vw, 1.2rem);
 }
 
 .badge-name {
   font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 2vw, 0.85rem);
   font-weight: 600;
   color: #fff;
 }
 
 .no-badges {
   font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .profile-actions {
   display: flex;
   justify-content: flex-end;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 20px;
+  padding-top: clamp(15px, 3vh, 20px);
 }
 
 .reset-btn {
   border-color: #e63946 !important;
   color: #e63946 !important;
+  font-size: clamp(0.75rem, 2.5vw, 0.85rem) !important;
+  padding: 8px 16px !important;
 }
 
 .reset-btn:hover {

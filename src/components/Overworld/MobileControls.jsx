@@ -4,13 +4,17 @@ import './MobileControls.css';
 export default function MobileControls({ onMove, onInteract }) {
   const intervalRef = useRef(null);
   const onMoveRef = useRef(onMove);
+  const activePointerIdRef = useRef(null);
 
   // Sync the latest onMove function to ref to prevent closures capturing stale states
   useEffect(() => {
     onMoveRef.current = onMove;
   }, [onMove]);
 
-  const startMoving = (dir) => {
+  const startMoving = (e, dir) => {
+    if (activePointerIdRef.current !== null) return;
+    activePointerIdRef.current = e.pointerId;
+
     // Walk immediately
     onMoveRef.current(dir);
 
@@ -21,7 +25,9 @@ export default function MobileControls({ onMove, onInteract }) {
     }, 180);
   };
 
-  const stopMoving = () => {
+  const stopMoving = (e) => {
+    if (e && e.pointerId !== activePointerIdRef.current) return;
+    activePointerIdRef.current = null;
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
@@ -41,11 +47,10 @@ export default function MobileControls({ onMove, onInteract }) {
         <div className="d-pad-row">
           <button 
             className="d-pad-btn up" 
-            onTouchStart={(e) => { e.preventDefault(); startMoving('up'); }} 
-            onTouchEnd={stopMoving}
-            onMouseDown={(e) => { e.preventDefault(); startMoving('up'); }}
-            onMouseUp={stopMoving}
-            onMouseLeave={stopMoving}
+            onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); startMoving(e, 'up'); }} 
+            onPointerUp={(e) => { e.preventDefault(); stopMoving(e); }}
+            onPointerLeave={(e) => stopMoving(e)}
+            onPointerCancel={(e) => stopMoving(e)}
           >
             ▲
           </button>
@@ -53,22 +58,20 @@ export default function MobileControls({ onMove, onInteract }) {
         <div className="d-pad-row">
           <button 
             className="d-pad-btn left" 
-            onTouchStart={(e) => { e.preventDefault(); startMoving('left'); }} 
-            onTouchEnd={stopMoving}
-            onMouseDown={(e) => { e.preventDefault(); startMoving('left'); }}
-            onMouseUp={stopMoving}
-            onMouseLeave={stopMoving}
+            onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); startMoving(e, 'left'); }} 
+            onPointerUp={(e) => { e.preventDefault(); stopMoving(e); }}
+            onPointerLeave={(e) => stopMoving(e)}
+            onPointerCancel={(e) => stopMoving(e)}
           >
             ◀
           </button>
           <div className="d-pad-center"></div>
           <button 
             className="d-pad-btn right" 
-            onTouchStart={(e) => { e.preventDefault(); startMoving('right'); }} 
-            onTouchEnd={stopMoving}
-            onMouseDown={(e) => { e.preventDefault(); startMoving('right'); }}
-            onMouseUp={stopMoving}
-            onMouseLeave={stopMoving}
+            onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); startMoving(e, 'right'); }} 
+            onPointerUp={(e) => { e.preventDefault(); stopMoving(e); }}
+            onPointerLeave={(e) => stopMoving(e)}
+            onPointerCancel={(e) => stopMoving(e)}
           >
             ▶
           </button>
@@ -76,11 +79,10 @@ export default function MobileControls({ onMove, onInteract }) {
         <div className="d-pad-row">
           <button 
             className="d-pad-btn down" 
-            onTouchStart={(e) => { e.preventDefault(); startMoving('down'); }} 
-            onTouchEnd={stopMoving}
-            onMouseDown={(e) => { e.preventDefault(); startMoving('down'); }}
-            onMouseUp={stopMoving}
-            onMouseLeave={stopMoving}
+            onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); startMoving(e, 'down'); }} 
+            onPointerUp={(e) => { e.preventDefault(); stopMoving(e); }}
+            onPointerLeave={(e) => stopMoving(e)}
+            onPointerCancel={(e) => stopMoving(e)}
           >
             ▼
           </button>
@@ -90,8 +92,7 @@ export default function MobileControls({ onMove, onInteract }) {
       <div className="action-buttons">
         <button 
           className="action-btn interact" 
-          onTouchStart={(e) => { e.preventDefault(); onInteract(); }} 
-          onMouseDown={(e) => { e.preventDefault(); onInteract(); }}
+          onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); onInteract(); }}
         >
           Interact
         </button>

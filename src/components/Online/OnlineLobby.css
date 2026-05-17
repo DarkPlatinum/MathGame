@@ -1,10 +1,11 @@
 .online-lobby {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: clamp(15px, 4vh, 30px);
   width: 100%;
   max-width: 800px;
-  padding: 20px;
+  padding: 15px;
+  box-sizing: border-box;
 }
 
 .lobby-header {
@@ -12,9 +13,9 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 20px;
+  padding-bottom: 15px;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 12px;
 }
 
 .lobby-back {
@@ -23,7 +24,7 @@
   color: rgba(255, 255, 255, 0.7);
   font-family: 'Outfit', sans-serif;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.95rem;
   transition: color 0.2s ease;
 }
 
@@ -33,7 +34,7 @@
 
 .lobby-title {
   font-family: 'Press Start 2P', cursive;
-  font-size: 1.5rem;
+  font-size: clamp(0.95rem, 4vw, 1.5rem);
   color: #fff;
   text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
 }
@@ -43,17 +44,17 @@
   align-items: center;
   gap: 8px;
   background: rgba(0, 0, 0, 0.3);
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
 .status-dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   display: inline-block;
 }
@@ -88,43 +89,45 @@
 
 .lobby-content {
   display: flex;
-  gap: 20px;
+  gap: clamp(15px, 4vw, 20px);
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .lobby-action-card {
   flex: 1;
-  min-width: 280px;
-  padding: 40px !important;
+  min-width: 260px;
+  padding: clamp(20px, 6vw, 40px) !important;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   text-align: center;
   background: rgba(15, 23, 42, 0.6) !important;
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+  border-radius: 16px;
+  box-sizing: border-box;
 }
 
 .lobby-action-card h3 {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.6rem;
+  font-size: clamp(1.25rem, 4vw, 1.6rem);
   color: #4cc9f0;
   font-weight: 800;
 }
 
 .lobby-action-card p {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   line-height: 1.5;
 }
 
 .join-code-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
   width: 100%;
 }
 
@@ -133,9 +136,9 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
   color: white;
-  padding: 12px;
+  padding: 10px;
   font-family: 'Press Start 2P', cursive;
-  font-size: 1rem;
+  font-size: 0.85rem;
   text-align: center;
   text-transform: uppercase;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;

@@ -1,5 +1,5 @@
 .online-page {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
@@ -9,13 +9,13 @@
   color: white;
   position: relative;
   overflow-y: auto;
-  padding: 20px;
+  padding: clamp(10px, 3vw, 20px);
   box-sizing: border-box;
 }
 
 .online-loading {
   font-family: 'Press Start 2P', cursive;
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 3.5vw, 1rem);
   color: #4cc9f0;
   text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
   animation: pulse 1s infinite alternate;
@@ -23,24 +23,28 @@
 
 .online-error {
   position: fixed;
-  top: 20px;
+  top: 15px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(230, 57, 70, 0.95);
   border: 1px solid #e63946;
   box-shadow: 0 0 15px rgba(230, 57, 70, 0.4);
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: 8px;
   font-family: 'Inter', sans-serif;
   font-weight: bold;
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
   animation: slideDown 0.3s ease-out;
   z-index: 1000;
+  width: max-content;
+  max-width: 90%;
+  text-align: center;
 }
 
 /* Waiting Room */
 .waiting-room-container {
   width: 100%;
-  max-width: 500px;
+  max-width: 460px;
   perspective: 1000px;
 }
 
@@ -50,16 +54,17 @@
   border-radius: 20px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(12px);
-  padding: 30px;
+  padding: clamp(16px, 5vw, 30px);
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: clamp(15px, 4vh, 25px);
   text-align: center;
+  box-sizing: border-box;
 }
 
 .waiting-title {
   font-family: 'Press Start 2P', cursive;
-  font-size: 1.1rem;
+  font-size: clamp(0.85rem, 3vw, 1.1rem);
   color: #4cc9f0;
   text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
   margin: 0;
@@ -71,29 +76,33 @@
   align-items: center;
   background: rgba(0, 0, 0, 0.25);
   border-radius: 12px;
-  padding: 16px;
+  padding: clamp(10px, 3vw, 16px);
   border: 1px solid rgba(255, 255, 255, 0.05);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .code-label {
   font-family: 'Inter', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 2px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .code-box {
   display: flex;
-  gap: 12px;
+  gap: clamp(8px, 2.5vw, 12px);
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  width: 100%;
+  justify-content: center;
 }
 
 .code-text {
   font-family: 'Press Start 2P', cursive;
-  font-size: 1.4rem;
+  font-size: clamp(1.1rem, 4.5vw, 1.45rem);
   color: #f4a261;
   letter-spacing: 3px;
 }
@@ -102,13 +111,14 @@
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: #fff;
-  padding: 6px 12px;
+  padding: 6px clamp(8px, 2vw, 12px);
   border-radius: 6px;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  font-size: 0.75rem;
+  font-size: clamp(0.65rem, 2vw, 0.75rem);
   font-weight: 700;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .code-copy-btn:hover {
@@ -125,28 +135,29 @@
 
 .code-hint {
   font-family: 'Inter', sans-serif;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
 }
 
 /* VS Players list */
 .players-vs-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  width: 100%;
 }
 
 .players-vs-grid {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .player-slot-card {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px;
+  gap: clamp(10px, 3vw, 16px);
+  padding: clamp(10px, 3.5vw, 16px);
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 12px;
@@ -166,18 +177,19 @@
 
 .player-slot-card.empty {
   border-style: dashed;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .slot-avatar {
-  width: 48px;
-  height: 48px;
+  width: clamp(36px, 10vw, 44px);
+  height: clamp(36px, 10vw, 44px);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+  font-size: clamp(1.1rem, 3.5vw, 1.3rem);
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  flex-shrink: 0;
 }
 
 .slot-avatar.empty {
@@ -189,14 +201,18 @@
 .slot-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
+  min-width: 0;
 }
 
 .slot-name {
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 3vw, 1.05rem);
   color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .slot-name.empty {
@@ -204,20 +220,20 @@
 }
 
 .slot-you-tag {
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   color: #4cc9f0;
-  margin-left: 5px;
+  margin-left: 4px;
 }
 
 .slot-status-badge {
   font-family: 'Inter', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.5px;
 }
 
 .status-ready {
-  color: #2d6a4f;
+  color: #52b788;
 }
 
 .status-waiting {
@@ -230,16 +246,17 @@
 
 .room-actions {
   display: flex;
-  gap: 15px;
-  margin-top: 10px;
+  gap: clamp(10px, 3vw, 15px);
+  margin-top: 5px;
+  width: 100%;
 }
 
 .btn-leave, .btn-ready {
-  padding: 14px 24px;
+  padding: 12px clamp(14px, 4vw, 24px);
   border: none;
   border-radius: 10px;
   font-family: 'Press Start 2P', cursive;
-  font-size: 0.75rem;
+  font-size: clamp(0.6rem, 2vw, 0.7rem);
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
@@ -262,7 +279,7 @@
   border: 1px solid rgba(45, 106, 79, 1);
   color: white;
   flex-grow: 1;
-  box-shadow: 0 4px 0 rgba(27, 67, 50, 1);
+  box-shadow: 0 3px 0 rgba(27, 67, 50, 1);
 }
 
 .btn-ready:hover {
@@ -278,31 +295,33 @@
 /* Result Screen */
 .result-screen-container {
   width: 100%;
-  max-width: 450px;
+  max-width: 420px;
 }
 
 .result-card {
   background: rgba(15, 23, 42, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 40px;
+  padding: clamp(20px, 6vw, 35px);
   border-radius: 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .result-card h2 {
   font-family: 'Press Start 2P', cursive;
-  font-size: 1.4rem;
+  font-size: clamp(1.05rem, 3.5vw, 1.35rem);
   margin: 0;
   text-shadow: 0 0 20px rgba(244, 162, 97, 0.4);
 }
 
 .result-desc {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
   color: rgba(255, 255, 255, 0.7);
 }
 
