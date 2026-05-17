@@ -400,29 +400,43 @@
 
 /* 2. Mobile Compact Viewport Rules */
 @media (max-width: 768px) {
+  .battle-screen, .battle-screen * {
+    box-sizing: border-box !important;
+  }
+
+  .battle-screen {
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
   .battle-arena {
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;
-    gap: 8px;
-    padding: 8px 12px;
-    max-height: 72px; /* Restrict arena height so cards sit at top side-by-side */
-    flex: 0 0 auto;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    padding: 8px 12px !important;
+    max-height: none !important;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .battle-enemy-section, .battle-player-section {
-    flex: 1;
-    min-width: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     margin: 0 !important;
-    padding: 6px 8px !important;
+    padding: 6px 10px !important;
     border-radius: 8px !important;
-    align-self: flex-start !important;
-    max-width: 48%;
+    align-self: stretch !important;
+    display: flex !important;
+    align-items: center !important;
     gap: 8px !important;
+    box-sizing: border-box !important;
   }
   
   .battle-player-section {
-    flex-direction: row !important; /* Keep left-to-right on mobile to fit nicely */
+    flex-direction: row !important; /* Standardize left-to-right on mobile to fit nicely */
   }
 
   .battle-sprite {
@@ -443,13 +457,15 @@
   }
 
   .hp-bar-container {
-    padding: 2px 4px !important;
-    border-radius: 6px !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
     background: none !important;
     backdrop-filter: none !important;
     border: none !important;
     box-shadow: none !important;
     width: 100% !important;
+    min-width: 0 !important;
+    flex: 1 !important;
   }
 
   .hp-enemy, .hp-player {
@@ -462,6 +478,8 @@
 
   .hp-details {
     min-width: 0 !important;
+    width: 100% !important;
+    flex: 1 !important;
   }
 
   .hp-name {
@@ -470,11 +488,13 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    width: 100% !important;
   }
 
   .hp-bar-track {
     height: 6px !important;
     margin: 2px 0 !important;
+    width: 100% !important;
   }
 
   .hp-text {
@@ -495,51 +515,98 @@
 
   /* Feedback pops below top bar */
   .battle-feedback {
-    top: 25% !important;
+    top: 30% !important;
+    font-size: clamp(0.75rem, 2vw, 0.95rem) !important;
+    padding: 8px 14px !important;
   }
 
   /* Compact Bottom Controls */
   .battle-bottom {
-    padding: 6px 10px 10px 10px;
-    gap: 4px;
-    flex: 1; /* Occupy remaining mobile viewport */
-    justify-content: flex-start;
+    padding: 8px 10px;
+    gap: 6px;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+    flex: 1 !important; /* Occupy remaining mobile viewport */
+    justify-content: flex-start !important;
+    overflow: hidden !important;
   }
 
   .question-box {
-    margin-bottom: 1px;
+    width: 100% !important;
+    text-align: center !important;
+    margin: 4px 0 !important;
+    box-sizing: border-box !important;
   }
 
   .question-text {
-    font-size: 1.15rem;
+    font-size: clamp(1.4rem, 6.5vw, 1.85rem) !important;
+    width: 100% !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+    box-sizing: border-box !important;
+  }
+
+  .answer-input-container {
+    width: min(92vw, 360px) !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .answer-input {
+    height: clamp(44px, 6vh, 48px) !important;
+    font-size: clamp(1rem, 5vw, 1.15rem) !important;
+    padding: 8px 10px !important;
+  }
+
+  .number-pad {
+    width: min(92vw, 320px) !important;
+    max-width: 320px !important;
+    margin: 6px auto 0 !important;
+    gap: 6px !important;
+    box-sizing: border-box !important;
+  }
+
+  .numpad-btn {
+    height: clamp(42px, 5.5vh, 46px) !important;
+    font-size: clamp(1rem, 5vw, 1.2rem) !important;
   }
 
   .battle-stats-bar {
-    font-size: 0.7rem;
-    margin-top: 1px;
+    font-size: 0.7rem !important;
+    margin-top: 2px !important;
   }
 
   .battle-log {
-    max-height: 65px !important;
+    width: min(92vw, 420px) !important;
+    max-width: 100% !important;
+    margin: 6px auto 0 !important;
+    max-height: clamp(65px, 10vh, 85px) !important;
+    box-sizing: border-box !important;
+  }
+
+  .battle-log-msg {
+    white-space: normal !important;
+    word-break: break-word !important;
+    font-size: 0.75rem !important;
+    padding: 3px 8px !important;
   }
 }
 
 /* Extra small mobile adjustments */
 @media (max-width: 480px) {
   .battle-arena {
-    padding: 6px 8px;
+    grid-template-columns: 1fr !important; /* Stack vertically to fit completely */
+    padding: 6px 10px !important;
+    gap: 6px !important;
   }
   
   .battle-enemy-section, .battle-player-section {
-    padding: 4px 6px !important;
+    padding: 5px 8px !important;
   }
 
   .question-text {
-    font-size: 1.05rem;
-  }
-
-  .battle-log-msg {
-    font-size: 0.75rem;
-    padding: 2px 6px;
+    font-size: clamp(1.25rem, 6vw, 1.6rem) !important;
   }
 }
