@@ -4,12 +4,17 @@
   gap: 30px;
   width: 100%;
   max-width: 800px;
+  padding: 20px;
 }
 
 .lobby-header {
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .lobby-back {
@@ -19,6 +24,7 @@
   font-family: 'Outfit', sans-serif;
   cursor: pointer;
   font-size: 1rem;
+  transition: color 0.2s ease;
 }
 
 .lobby-back:hover {
@@ -29,6 +35,55 @@
   font-family: 'Press Start 2P', cursive;
   font-size: 1.5rem;
   color: #fff;
+  text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+}
+
+.lobby-connection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-connected .status-dot {
+  background: #2d6a4f;
+  box-shadow: 0 0 10px #2d6a4f;
+}
+
+.status-connected .status-text {
+  color: #2d6a4f;
+}
+
+.status-connecting .status-dot {
+  background: #f4a261;
+  box-shadow: 0 0 10px #f4a261;
+  animation: pulse 1s infinite alternate;
+}
+
+.status-connecting .status-text {
+  color: #f4a261;
+}
+
+.status-disconnected .status-dot {
+  background: #e63946;
+  box-shadow: 0 0 10px #e63946;
+}
+
+.status-disconnected .status-text {
+  color: #e63946;
 }
 
 .lobby-content {
@@ -36,49 +91,73 @@
   gap: 20px;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .lobby-action-card {
   flex: 1;
-  min-width: 250px;
-  padding: 30px !important;
+  min-width: 280px;
+  padding: 40px !important;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
   text-align: center;
+  background: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
 }
 
 .lobby-action-card h3 {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: #4cc9f0;
+  font-weight: 800;
 }
 
 .lobby-action-card p {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 0.9rem;
-  margin-bottom: 10px;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .join-code-form {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
 }
 
 .join-code-input {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
   color: white;
-  padding: 10px;
+  padding: 12px;
   font-family: 'Press Start 2P', cursive;
-  font-size: 0.8rem;
+  font-size: 1rem;
   text-align: center;
   text-transform: uppercase;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  letter-spacing: 2px;
 }
 
 .join-code-input:focus {
   outline: none;
   border-color: #f4a261;
+  box-shadow: 0 0 10px rgba(244, 162, 97, 0.3);
+}
+
+@keyframes pulse {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
+@media (min-width: 600px) {
+  .join-code-form {
+    flex-direction: row;
+  }
+  .join-code-input {
+    flex: 1;
+  }
 }

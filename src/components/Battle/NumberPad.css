@@ -1,0 +1,79 @@
+.number-pad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  width: min(92vw, 320px);
+  margin: 6px auto 0;
+  box-sizing: border-box;
+}
+
+.numpad-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  height: clamp(42px, 6vh, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.numpad-btn:active {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(0.95);
+}
+
+.numpad-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.numpad-action {
+  background: rgba(244, 162, 97, 0.1);
+  border-color: rgba(244, 162, 97, 0.25);
+  color: #f4a261;
+}
+
+.numpad-action:active {
+  background: rgba(244, 162, 97, 0.25);
+}
+
+.numpad-submit {
+  grid-column: span 3;
+  background: rgba(45, 106, 79, 0.85);
+  border-color: rgba(45, 106, 79, 1);
+  color: #fff;
+  font-size: 0.85rem;
+  font-family: 'Press Start 2P', cursive;
+  box-shadow: 0 3px 0 rgba(27, 67, 50, 1);
+}
+
+.numpad-submit:active {
+  box-shadow: 0 0 0 rgba(27, 67, 50, 1);
+  transform: translateY(3px) scale(0.98);
+}
+
+/* Desktop sizing tweaks */
+@media (min-width: 769px) {
+  .number-pad {
+    width: 320px;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .numpad-btn {
+    height: 48px;
+    font-size: 1.35rem;
+  }
+  .numpad-submit {
+    font-size: 0.9rem;
+  }
+}

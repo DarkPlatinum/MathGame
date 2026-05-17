@@ -18,6 +18,9 @@ export default function OnlinePage() {
   const [battleState, setBattleState] = useState('lobby'); // lobby, waiting, battling, result
   const [winnerInfo, setWinnerInfo] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
+  const [connectionStatus, setConnectionStatus] = useState('connecting'); // connecting, connected, disconnected
+  const [isCreating, setIsCreating] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (!player.setupComplete) {
@@ -30,12 +33,22 @@ export default function OnlinePage() {
 
     newSocket.on('connect', () => {
       console.log('Connected to PvP server');
+      setConnectionStatus('connected');
+    });
+
+    newSocket.on('disconnect', () => {
+      setConnectionStatus('disconnected');
+    });
+
+    newSocket.on('connect_error', () => {
+      setConnectionStatus('disconnected');
     });
 
     newSocket.on('roomCreated', (data) => {
       setRoomCode(data.roomCode);
       setPlayers(data.players);
       setBattleState('waiting');
+      setIsCreating(false);
     });
 
     newSocket.on('roomJoined', (data) => {
@@ -50,6 +63,7 @@ export default function OnlinePage() {
 
     newSocket.on('errorMessage', (msg) => {
       setErrorMsg(msg);
+      setIsCreating(false);
       setTimeout(() => setErrorMsg(''), 3000);
     });
 
@@ -74,11 +88,16 @@ export default function OnlinePage() {
   }, [navigate, player.setupComplete]);
 
   const handleCreateRoom = () => {
-    socket.emit('createRoom', { playerName: player.name });
+    if (socket && connectionStatus === 'connected') {
+      setIsCreating(true);
+      socket.emit('createRoom', { playerName: player.name });
+    }
   };
 
   const handleJoinRoom = (code) => {
-    socket.emit('joinRoom', { roomCode: code, playerName: player.name });
+    if (socket && connectionStatus === 'connected' && code.trim()) {
+      socket.emit('joinRoom', { roomCode: code.trim(), playerName: player.name });
+    }
   };
 
   const handleReady = () => {
@@ -103,37 +122,89 @@ export default function OnlinePage() {
     navigate('/');
   };
 
+  const handleCopyCode = () => {
+    if (roomCode) {
+      navigator.clipboard.writeText(roomCode);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   if (!socket) return <div className="online-loading">Connecting to server...</div>;
 
   return (
     <div className="online-page">
-      {errorMsg && <div className="online-error">{errorMsg}</div>}
+      {errorMsg && <div className="online-error">⚠️ {errorMsg}</div>}
       
       {battleState === 'lobby' && (
         <OnlineLobby 
           onCreateRoom={handleCreateRoom}
           onJoinRoom={handleJoinRoom}
           onLeave={handleLeaveOnline}
+          connectionStatus={connectionStatus}
+          isCreating={isCreating}
         />
       )}
 
       {battleState === 'waiting' && (
-        <div className="waiting-room">
-          <h2>Room Code: {roomCode}</h2>
-          <div className="players-list">
-            {Object.values(players).map(p => (
-              <div key={p.id} className="player-card">
-                <span className="player-name">{p.name} {p.id === socket.id && '(You)'}</span>
-                <span className="player-status">{p.ready ? 'Ready!' : 'Waiting...'}</span>
+        <div className="waiting-room-container">
+          <div className="waiting-room-card">
+            <h2 className="waiting-title">Room Established</h2>
+            
+            <div className="code-box-container">
+              <span className="code-label">SHARE ROOM CODE</span>
+              <div className="code-box">
+                <span className="code-text">{roomCode}</span>
+                <button 
+                  className={`code-copy-btn ${copied ? 'copied' : ''}`} 
+                  onClick={handleCopyCode}
+                >
+                  {copied ? 'COPIED!' : 'COPY CODE'}
+                </button>
               </div>
-            ))}
-          </div>
-          
-          <div className="room-actions">
-            <button className="btn-leave" onClick={handleLeaveRoom}>Leave Room</button>
-            {!players[socket.id]?.ready && (
-              <button className="btn-ready" onClick={handleReady}>I'm Ready!</button>
-            )}
+              <span className="code-hint">Waiting for challenger to connect...</span>
+            </div>
+
+            <div className="players-vs-container">
+              <div className="players-vs-grid">
+                {Object.values(players).map(p => {
+                  const isMe = p.id === socket.id;
+                  return (
+                    <div key={p.id} className={`player-slot-card ${p.ready ? 'ready' : 'waiting'}`}>
+                      <div className="slot-avatar" style={{ background: isMe ? player.avatarColor : '#f72585' }}>
+                        <span>👤</span>
+                      </div>
+                      <div className="slot-info">
+                        <span className="slot-name">
+                          {p.name} {isMe && <span className="slot-you-tag">(YOU)</span>}
+                        </span>
+                        <span className={`slot-status-badge ${p.ready ? 'status-ready' : 'status-waiting'}`}>
+                          {p.ready ? 'READY!' : 'PREPARING...'}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+                {Object.keys(players).length < 2 && (
+                  <div className="player-slot-card empty">
+                    <div className="slot-avatar empty">
+                      <span>🤖</span>
+                    </div>
+                    <div className="slot-info">
+                      <span className="slot-name empty">Challenger</span>
+                      <span className="slot-status-badge empty">Awaiting entry...</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="room-actions">
+              <button className="btn-leave" onClick={handleLeaveRoom}>Leave Room</button>
+              {!players[socket.id]?.ready && (
+                <button className="btn-ready" onClick={handleReady}>READY UP</button>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -147,10 +218,12 @@ export default function OnlinePage() {
       )}
 
       {battleState === 'result' && (
-        <div className="result-screen">
-          <h2>{winnerInfo.winnerId === socket.id ? '🏆 YOU WON! 🏆' : '💀 YOU LOST! 💀'}</h2>
-          <p>{winnerInfo.winnerName} is the champion!</p>
-          <button className="btn-leave" onClick={handleLeaveRoom}>Return to Lobby</button>
+        <div className="result-screen-container">
+          <div className="result-card">
+            <h2>{winnerInfo.winnerId === socket.id ? '🏆 VICTORY! 🏆' : '💀 DEFEATED! 💀'}</h2>
+            <p className="result-desc">{winnerInfo.winnerName} ruled the battlefield!</p>
+            <button className="btn-leave" onClick={handleLeaveRoom}>Return to Lobby</button>
+          </div>
         </div>
       )}
     </div>

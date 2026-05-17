@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PlayerSprite from './PlayerSprite';
 import NPCComponent from './NPC';
 import DialogueBox from './DialogueBox';
+import MobileControls from './MobileControls';
 import { mapData, TILE_SIZE, MAP_COLS, MAP_ROWS, TILE_TYPES, isTileWalkable } from '../../data/maps';
 import { npcs } from '../../data/npcs';
 import { loadPlayer } from '../../utils/storage';
@@ -29,60 +30,80 @@ export default function OverworldMap({ onStartBattle }) {
     return npcs.some(npc => npc.position.x === x && npc.position.y === y);
   }, []);
 
+  // Move player logic
+  const movePlayer = useCallback((dirKey) => {
+    if (activeDialogue) return;
+
+    let dir = null;
+    switch (dirKey) {
+      case 'arrowup':
+      case 'w':
+      case 'up':
+        dir = 'up';
+        break;
+      case 'arrowdown':
+      case 's':
+      case 'down':
+        dir = 'down';
+        break;
+      case 'arrowleft':
+      case 'a':
+      case 'left':
+        dir = 'left';
+        break;
+      case 'arrowright':
+      case 'd':
+      case 'right':
+        dir = 'right';
+        break;
+      default:
+        return;
+    }
+
+    if (dir) {
+      setDirection(dir);
+    }
+
+    setPlayerPos(prev => {
+      let newX = prev.x;
+      let newY = prev.y;
+
+      if (dir === 'up') newY -= 1;
+      else if (dir === 'down') newY += 1;
+      else if (dir === 'left') newX -= 1;
+      else if (dir === 'right') newX += 1;
+
+      if (isTileWalkable(newX, newY) && !isNPCTile(newX, newY)) {
+        return { x: newX, y: newY };
+      }
+      return prev;
+    });
+  }, [activeDialogue, isNPCTile]);
+
+  const interact = useCallback(() => {
+    if (activeDialogue) return;
+    const nearby = findNearbyNPC(playerPos.x, playerPos.y);
+    if (nearby) {
+      const isDefeated = player.npcsDefeated.includes(nearby.id);
+      setActiveDialogue(nearby);
+      setDialogueStep(isDefeated ? 'defeated' : 0);
+    }
+  }, [activeDialogue, findNearbyNPC, playerPos, player.npcsDefeated]);
+
   // Handle keyboard input
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (activeDialogue) return;
-
       const key = e.key.toLowerCase();
-      let newX = playerPos.x;
-      let newY = playerPos.y;
-
-      switch (key) {
-        case 'arrowup':
-        case 'w':
-          newY -= 1;
-          setDirection('up');
-          break;
-        case 'arrowdown':
-        case 's':
-          newY += 1;
-          setDirection('down');
-          break;
-        case 'arrowleft':
-        case 'a':
-          newX -= 1;
-          setDirection('left');
-          break;
-        case 'arrowright':
-        case 'd':
-          newX += 1;
-          setDirection('right');
-          break;
-        case 'e':
-          // Interact with nearby NPC
-          const nearby = findNearbyNPC(playerPos.x, playerPos.y);
-          if (nearby) {
-            const isDefeated = player.npcsDefeated.includes(nearby.id);
-            setActiveDialogue(nearby);
-            setDialogueStep(isDefeated ? 'defeated' : 0);
-          }
-          return;
-        default:
-          return;
-      }
-
-      e.preventDefault();
-
-      // Check collision
-      if (isTileWalkable(newX, newY) && !isNPCTile(newX, newY)) {
-        setPlayerPos({ x: newX, y: newY });
+      if (key === 'e') {
+        interact();
+      } else {
+        movePlayer(key);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [playerPos, activeDialogue, findNearbyNPC, isNPCTile, player.npcsDefeated]);
+  }, [movePlayer, interact]);
 
   // Update nearby NPC detection
   useEffect(() => {
@@ -219,6 +240,8 @@ export default function OverworldMap({ onStartBattle }) {
           onBattle={handleBattle}
         />
       )}
+      {/* Mobile Controls */}
+      <MobileControls onMove={movePlayer} onInteract={interact} />
     </div>
   );
 }

@@ -14,6 +14,8 @@ export default function PvPBattle({ socket, roomCode, initialPlayers }) {
   const [feedback, setFeedback] = useState(null);
   const [shakeTarget, setShakeTarget] = useState(null); // 'player' or 'enemy'
   const [inputDisabled, setInputDisabled] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState(socket.connected ? 'connected' : 'disconnected');
   
   const popupIdRef = useRef(0);
 
@@ -24,12 +26,21 @@ export default function PvPBattle({ socket, roomCode, initialPlayers }) {
   const opponent = players[opponentId];
 
   useEffect(() => {
+    const handleConnect = () => setConnectionStatus('connected');
+    const handleDisconnect = () => setConnectionStatus('disconnected');
+
+    socket.on('connect', handleConnect);
+    socket.on('disconnect', handleDisconnect);
+
     socket.on('newQuestion', (data) => {
       setQuestion(data.questionText);
       setInputDisabled(false);
+      setIsSubmitting(false);
     });
 
     socket.on('answerResult', (data) => {
+      setIsSubmitting(false);
+      
       if (data.correct) {
         const isMe = data.playerId === myId;
         const target = isMe ? 'enemy' : 'player';
@@ -39,16 +50,22 @@ export default function PvPBattle({ socket, roomCode, initialPlayers }) {
         triggerShake(target);
         
         if (isMe) {
-          showFeedback('Correct!', 'correct');
+          let feedbackText = 'Correct! ✓';
+          let feedbackType = 'correct';
+          if (data.streak > 1) {
+            feedbackText = `Combo x${data.streak}! 🔥`;
+            feedbackType = 'streak';
+          }
+          showFeedback(feedbackText, feedbackType);
         } else {
-          showFeedback('Opponent got it!', 'wrong');
+          showFeedback('Opponent got it! ⚡', 'wrong');
         }
         
         setInputDisabled(true); // Stop typing since someone got it
       } else {
         const isMe = data.playerId === myId;
         if (isMe) {
-          showFeedback('Wrong!', 'wrong');
+          showFeedback('Wrong! ⚠️', 'wrong');
           setInputDisabled(true);
           setTimeout(() => {
             // Only re-enable if question hasn't been solved by opponent
@@ -67,6 +84,8 @@ export default function PvPBattle({ socket, roomCode, initialPlayers }) {
     });
 
     return () => {
+      socket.off('connect', handleConnect);
+      socket.off('disconnect', handleDisconnect);
       socket.off('newQuestion');
       socket.off('answerResult');
       socket.off('hpUpdate');
@@ -97,7 +116,8 @@ export default function PvPBattle({ socket, roomCode, initialPlayers }) {
   };
 
   const handleAnswerSubmit = (answer) => {
-    if (!question || inputDisabled) return;
+    if (!question || inputDisabled || isSubmitting) return;
+    setIsSubmitting(true);
     socket.emit('submitAnswer', { roomCode, answer });
   };
 
@@ -107,6 +127,13 @@ export default function PvPBattle({ socket, roomCode, initialPlayers }) {
     <div className={`pvp-battle-screen ${shakeTarget === 'player' ? 'screen-shake' : ''}`}>
       <div className="battle-arena">
         <div className="battle-bg-pattern" />
+
+        <div className="pvp-battle-header">
+          <span className="room-code-badge">ROOM: {roomCode}</span>
+          <div className={`lobby-status status-${connectionStatus}`}>
+            {connectionStatus === 'connected' ? '● Connected' : '○ Disconnected'}
+          </div>
+        </div>
 
         {/* Enemy (Opponent) section */}
         <div className={`battle-enemy-section ${shakeTarget === 'enemy' ? 'sprite-shake' : ''}`}>
@@ -159,7 +186,7 @@ export default function PvPBattle({ socket, roomCode, initialPlayers }) {
         
         <AnswerInput 
           onSubmit={handleAnswerSubmit} 
-          disabled={!question || inputDisabled} 
+          disabled={!question || inputDisabled || isSubmitting} 
         />
         
         <BattleLog messages={messages} />

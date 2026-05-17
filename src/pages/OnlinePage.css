@@ -1,103 +1,317 @@
 .online-page {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #1a1a2e, #0f0c29);
+  background: radial-gradient(circle at center, #1b263b, #0d1b2a, #000000);
   color: white;
   position: relative;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.online-loading {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1rem;
+  color: #4cc9f0;
+  text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+  animation: pulse 1s infinite alternate;
 }
 
 .online-error {
-  position: absolute;
+  position: fixed;
   top: 20px;
-  background: #e63946;
-  padding: 10px 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(230, 57, 70, 0.95);
+  border: 1px solid #e63946;
+  box-shadow: 0 0 15px rgba(230, 57, 70, 0.4);
+  padding: 12px 24px;
   border-radius: 8px;
   font-family: 'Inter', sans-serif;
   font-weight: bold;
   animation: slideDown 0.3s ease-out;
-  z-index: 100;
+  z-index: 1000;
 }
 
-.waiting-room, .result-screen {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 40px;
-  border-radius: 16px;
+/* Waiting Room */
+.waiting-room-container {
+  width: 100%;
+  max-width: 500px;
+  perspective: 1000px;
+}
+
+.waiting-room-card {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  min-width: 300px;
 }
 
-.waiting-room h2 {
+.waiting-title {
   font-family: 'Press Start 2P', cursive;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #4cc9f0;
+  text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
+  margin: 0;
 }
 
-.players-list {
+.code-box-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 20px 0;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.player-card {
+.code-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.code-box {
   display: flex;
-  justify-content: space-between;
-  padding: 15px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.1rem;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
-.player-status {
+.code-text {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.4rem;
   color: #f4a261;
+  letter-spacing: 3px;
+}
+
+.code-copy-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.code-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #f4a261;
+  color: #f4a261;
+}
+
+.code-copy-btn.copied {
+  background: rgba(45, 106, 79, 0.2);
+  border-color: #2d6a4f;
+  color: #2d6a4f;
+}
+
+.code-hint {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* VS Players list */
+.players-vs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.players-vs-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.player-slot-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.player-slot-card.ready {
+  border-color: rgba(45, 106, 79, 0.4);
+  background: rgba(45, 106, 79, 0.05);
+}
+
+.player-slot-card.waiting {
+  border-color: rgba(244, 162, 97, 0.2);
+  background: rgba(244, 162, 97, 0.02);
+}
+
+.player-slot-card.empty {
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.slot-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.slot-avatar.empty {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.3);
+  box-shadow: none;
+}
+
+.slot-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slot-name {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.slot-name.empty {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.slot-you-tag {
+  font-size: 0.75rem;
+  color: #4cc9f0;
+  margin-left: 5px;
+}
+
+.slot-status-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.status-ready {
+  color: #2d6a4f;
+}
+
+.status-waiting {
+  color: #f4a261;
+}
+
+.slot-status-badge.empty {
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .room-actions {
   display: flex;
-  justify-content: space-between;
   gap: 15px;
+  margin-top: 10px;
 }
 
 .btn-leave, .btn-ready {
-  padding: 12px 20px;
+  padding: 14px 24px;
   border: none;
-  border-radius: 8px;
-  font-family: 'Inter', sans-serif;
-  font-weight: bold;
+  border-radius: 10px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.75rem;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .btn-leave {
-  background: #e63946;
-  color: white;
+  background: rgba(230, 57, 70, 0.15);
+  border: 1px solid rgba(230, 57, 70, 0.3);
+  color: #e63946;
+}
+
+.btn-leave:hover {
+  background: rgba(230, 57, 70, 0.3);
+  transform: translateY(-2px);
 }
 
 .btn-ready {
-  background: #2d6a4f;
+  background: rgba(45, 106, 79, 0.85);
+  border: 1px solid rgba(45, 106, 79, 1);
   color: white;
   flex-grow: 1;
+  box-shadow: 0 4px 0 rgba(27, 67, 50, 1);
 }
 
-.btn-leave:hover, .btn-ready:hover {
-  opacity: 0.8;
+.btn-ready:hover {
+  background: rgba(45, 106, 79, 1);
+  transform: translateY(-2px);
 }
 
-.result-screen h2 {
+.btn-ready:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+/* Result Screen */
+.result-screen-container {
+  width: 100%;
+  max-width: 450px;
+}
+
+.result-card {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.result-card h2 {
   font-family: 'Press Start 2P', cursive;
-  color: #f4a261;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  margin: 0;
+  text-shadow: 0 0 20px rgba(244, 162, 97, 0.4);
+}
+
+.result-desc {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 @keyframes slideDown {
-  from { transform: translateY(-50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from { transform: translate(-50%, -50px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+@keyframes pulse {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
 }

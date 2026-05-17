@@ -5,17 +5,19 @@ import Card from '../UI/Card';
 import { loadPlayer } from '../../utils/storage';
 import './Lobby.css';
 
-const SOCKET_URL = 'http://localhost:3001';
+const SOCKET_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
 
 export default function Lobby({ onStartPvP, onBack }) {
   const player = loadPlayer();
   const [socket, setSocket] = useState(null);
-  const [connected, setConnected] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState('connecting'); // connecting, connected, disconnected
   const [rooms, setRooms] = useState([]);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [waiting, setWaiting] = useState(false);
+  const [creatingRoom, setCreatingRoom] = useState(false);
   const [error, setError] = useState('');
   const [roomCode, setRoomCode] = useState('');
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const newSocket = io(SOCKET_URL, {
@@ -26,19 +28,20 @@ export default function Lobby({ onStartPvP, onBack }) {
     });
 
     newSocket.on('connect', () => {
-      setConnected(true);
+      setConnectionStatus('connected');
       setError('');
       newSocket.emit('joinLobby', { playerName: player.name, level: player.level });
     });
 
     newSocket.on('connect_error', () => {
-      setConnected(false);
-      setError('Cannot connect to server. Make sure the server is running on port 3001.');
+      setConnectionStatus('disconnected');
+      setError('Cannot connect to server. Please try again later.');
     });
 
     newSocket.on('roomCreated', (data) => {
       setCurrentRoom(data.roomId);
       setWaiting(true);
+      setCreatingRoom(false);
     });
 
     newSocket.on('playerJoined', (data) => {
@@ -56,6 +59,7 @@ export default function Lobby({ onStartPvP, onBack }) {
     newSocket.on('errorMessage', (data) => {
       setError(data.message);
       setWaiting(false);
+      setCreatingRoom(false);
     });
 
     setSocket(newSocket);
@@ -66,13 +70,14 @@ export default function Lobby({ onStartPvP, onBack }) {
   }, []);
 
   const createRoom = () => {
-    if (socket && connected) {
+    if (socket && connectionStatus === 'connected') {
+      setCreatingRoom(true);
       socket.emit('createRoom', { playerName: player.name, level: player.level });
     }
   };
 
   const joinRoom = (roomId) => {
-    if (socket && connected) {
+    if (socket && connectionStatus === 'connected') {
       socket.emit('joinRoom', { roomId, playerName: player.name, level: player.level });
     }
   };
@@ -83,13 +88,21 @@ export default function Lobby({ onStartPvP, onBack }) {
     }
   };
 
+  const handleCopyCode = () => {
+    if (currentRoom) {
+      navigator.clipboard.writeText(currentRoom);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   return (
     <div className="lobby-screen">
       <div className="lobby-header">
         <button className="lobby-back" onClick={onBack}>← Back</button>
         <h1 className="lobby-title">Online Arena</h1>
-        <div className={`lobby-status ${connected ? 'status-connected' : 'status-disconnected'}`}>
-          {connected ? '● Connected' : '○ Disconnected'}
+        <div className={`lobby-status status-${connectionStatus}`}>
+          {connectionStatus === 'connected' ? '● Connected' : connectionStatus === 'connecting' ? '○ Connecting...' : '○ Disconnected'}
         </div>
       </div>
 
@@ -105,8 +118,13 @@ export default function Lobby({ onStartPvP, onBack }) {
             <div className="waiting-content">
               <div className="waiting-spinner" />
               <h2>Waiting for opponent...</h2>
-              <p className="room-code">Room Code: <strong>{currentRoom}</strong></p>
               <p className="waiting-hint">Share this code with your friend!</p>
+              <div className="room-code-box">
+                <span className="room-code-large">{currentRoom}</span>
+                <button className="copy-btn" onClick={handleCopyCode}>
+                  {copied ? 'Copied!' : 'Copy Code'}
+                </button>
+              </div>
               <Button variant="outline" onClick={() => { setWaiting(false); setCurrentRoom(null); }}>
                 Cancel
               </Button>
@@ -118,8 +136,8 @@ export default function Lobby({ onStartPvP, onBack }) {
               <Card glow className="lobby-action-card">
                 <h3>Create a Room</h3>
                 <p>Start a new battle room and wait for an opponent.</p>
-                <Button onClick={createRoom} disabled={!connected} size="large">
-                  ⚔️ Create Room
+                <Button onClick={createRoom} disabled={connectionStatus !== 'connected' || creatingRoom} size="large">
+                  {creatingRoom ? 'Creating...' : '⚔️ Create Room'}
                 </Button>
               </Card>
 
@@ -135,7 +153,7 @@ export default function Lobby({ onStartPvP, onBack }) {
                     placeholder="Enter room code"
                     maxLength={6}
                   />
-                  <Button onClick={joinByCode} disabled={!connected || !roomCode.trim()} variant="secondary">
+                  <Button onClick={joinByCode} disabled={connectionStatus !== 'connected' || !roomCode.trim()} variant="secondary">
                     Join
                   </Button>
                 </div>
